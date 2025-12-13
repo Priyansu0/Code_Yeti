@@ -1,8 +1,8 @@
 """
 CodeYeti Embeddings Module
 
-This module handles generating embeddings using Sentence Transformers
-and managing the ChromaDB vector store.
+This module handles managing the ChromaDB vector store.
+Uses ChromaDB's default embedding function for simplicity.
 """
 
 import os
@@ -15,21 +15,20 @@ from codeyeti.config.settings import settings
 
 class EmbeddingManager:
     """
-    Manages embedding generation and ChromaDB vector storage.
+    Manages ChromaDB vector storage with built-in embeddings.
     
-    Uses Sentence Transformers for generating embeddings and
-    ChromaDB for persistent vector storage and retrieval.
+    Uses ChromaDB's default embedding function for generating
+    embeddings and persistent vector storage for retrieval.
     """
     
     def __init__(self):
-        """Initialize the EmbeddingManager with models and database."""
-        self.model = None
+        """Initialize the EmbeddingManager with database."""
         self.client = None
         self.collection = None
         self._initialize()
     
     def _initialize(self):
-        """Initialize the embedding model and ChromaDB client."""
+        """Initialize ChromaDB client with default embedding function."""
         os.makedirs(settings.chroma_persist_dir, exist_ok=True)
         
         self.client = chromadb.PersistentClient(
@@ -41,31 +40,6 @@ class EmbeddingManager:
             name=settings.collection_name,
             metadata={"description": "CodeYeti code embeddings"}
         )
-    
-    def _get_model(self):
-        """Lazy load the sentence transformer model."""
-        if self.model is None:
-            try:
-                from sentence_transformers import SentenceTransformer
-                self.model = SentenceTransformer(settings.embedding_model)
-            except Exception as e:
-                print(f"Error loading embedding model: {e}")
-                raise
-        return self.model
-    
-    def generate_embeddings(self, texts: List[str]) -> List[List[float]]:
-        """
-        Generate embeddings for a list of texts.
-        
-        Args:
-            texts: List of text strings to embed
-            
-        Returns:
-            List of embedding vectors
-        """
-        model = self._get_model()
-        embeddings = model.encode(texts, show_progress_bar=False)
-        return embeddings.tolist()
     
     def add_chunks(self, chunks: List[Dict]) -> int:
         """
@@ -108,11 +82,8 @@ class EmbeddingManager:
             ids.append(chunk_id)
         
         if documents:
-            embeddings = self.generate_embeddings(documents)
-            
             self.collection.add(
                 documents=documents,
-                embeddings=embeddings,
                 metadatas=metadatas,
                 ids=ids
             )
@@ -133,10 +104,8 @@ class EmbeddingManager:
         if top_k is None:
             top_k = settings.top_k_results
         
-        query_embedding = self.generate_embeddings([query])[0]
-        
         results = self.collection.query(
-            query_embeddings=[query_embedding],
+            query_texts=[query],
             n_results=top_k,
             include=['documents', 'metadatas', 'distances']
         )
