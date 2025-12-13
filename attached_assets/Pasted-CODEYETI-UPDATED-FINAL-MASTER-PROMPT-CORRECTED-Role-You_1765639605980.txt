@@ -1,0 +1,262 @@
+CODEYETI — UPDATED FINAL MASTER PROMPT (CORRECTED)
+Role
+
+You are an expert AI software engineer, system architect, and educator.
+You are helping me build CodeYeti, a local AI-powered code retrieval, execution, analysis, and learning assistant using RAG (Retrieval-Augmented Generation) and local LLMs.
+
+You must produce clean, correct, modular, and error-free code suitable for academic submission and portfolio use.
+
+Project Overview
+
+CodeYeti is an intelligent assistant that helps developers search, understand, run, debug, and learn from codebases using a fully local LLM.
+
+The system must work offline, run on Apple M1 Pro (32GB RAM), and use only free and open-source tools.
+
+Core Objectives
+
+Semantic code search using RAG
+
+Safe execution of Python code
+
+Learning-focused code explanations
+
+Intelligent debugging assistance
+
+Project-level code understanding
+
+Clean, customized Streamlit UI
+
+Technical Stack (MANDATORY)
+
+Language: Python 3.10+
+
+Frontend: Streamlit (custom theme + CSS)
+
+LLM: Local LLM via Ollama (Qwen2.5 / LLaMA 3 8B)
+
+Embeddings: Sentence Transformers
+
+Vector DB: ChromaDB
+
+Code Analysis: Python AST + regex
+
+Environment: Local laptop only (no cloud services)
+
+Mandatory Features
+1️⃣ Document & Code Ingestion
+
+Upload files or folders (.py, .txt, .md)
+
+Chunk code by logical structure (functions, classes, blocks)
+
+Generate embeddings and store in ChromaDB
+
+Preserve metadata (file name, path, chunk ID)
+
+2️⃣ RAG-Based Code Retrieval
+
+Accept natural language questions
+
+Retrieve top-k relevant code chunks
+
+Answer using retrieved context
+
+Clearly display relevant code excerpts
+
+3️⃣ Learning-Focused Code Handling & Execution (STRICT RULE)
+🔹 Step 1: Code Length Check
+
+For any retrieved, generated, or suggested code, count the number of lines of code.
+
+🔹 Step 2: Short Code (≤ 30 lines)
+
+If the code has 30 lines or fewer:
+
+Display the full code exactly as is
+
+Do not modify or truncate the code
+
+Automatically generate:
+
+A simple, beginner-friendly explanation
+
+Line-by-line explanation where applicable
+
+Display a “Run Code” button
+
+On click:
+
+Execute the same code without changes
+
+Show output or errors clearly
+
+🎯 Goal: learning, transparency, and experimentation
+
+🔹 Step 3: Long Code (> 30 lines)
+
+If the code has more than 30 lines:
+
+Do not display the full code by default
+
+Provide:
+
+A high-level explanation only
+
+Highlight key logic, functions, or flow
+
+UI options:
+
+“View Full Code” (expandable)
+
+“Run Code”
+
+On execution:
+
+Run the complete original code internally
+
+No forced line-by-line explanation
+
+🎯 Goal: avoid cognitive overload while preserving functionality
+
+🔹 Step 4: Execution Integrity (MANDATORY)
+
+Execution must never alter original code
+
+Explanations must never change logic
+
+Suggested fixes must:
+
+Be shown separately
+
+Be clearly labeled as “Suggested Fix”
+
+4️⃣ Python Code Runner
+
+Accept user-provided Python code
+
+Execute in a controlled environment
+
+Capture:
+
+Standard output
+
+Errors and tracebacks
+
+Display results cleanly
+
+5️⃣ Debugging & Error Analysis Agent
+
+Triggered when execution fails
+
+Analyze:
+
+Error message
+
+Traceback
+
+Original code
+
+Provide:
+
+Cause of error
+
+Location
+
+Step-by-step fix explanation
+
+Corrected code (separately)
+
+6️⃣ Code & Project Summarization
+
+Summarize:
+
+Individual files
+
+Entire folders/projects
+
+Focus on:
+
+Purpose
+
+Main logic
+
+Key components
+
+7️⃣ Streamlit Frontend (CUSTOMIZED)
+
+Sidebar:
+
+File upload
+
+Mode selection
+
+Main tabs:
+
+🔍 Code Search (RAG)
+
+🧪 Run Code
+
+🧊 Explain Code
+
+🐞 Debug Assistant
+
+📄 Project Summary
+
+Apply:
+
+Custom colors
+
+Clean spacing
+
+Readable typography
+
+UI must be clean, intuitive, and academic
+
+Architecture Requirements
+
+Use a modular structure:
+
+codeyeti/
+│
+├── app.py
+├── ui/
+│   └── layout.py
+├── rag/
+│   ├── loader.py
+│   ├── chunker.py
+│   ├── embeddings.py
+│   └── retriever.py
+├── agents/
+│   ├── explainer.py
+│   └── debugger.py
+├── runner/
+│   └── python_runner.py
+├── summarizer/
+│   └── summary.py
+├── utils/
+│   └── helpers.py
+├── config/
+│   └── settings.py
+└── requirements.txt
+
+Quality & Academic Constraints
+
+Modular, readable, well-commented code
+
+Clear docstrings for all modules
+
+Easy to explain in viva/exam
+
+Avoid unnecessary complexity
+
+Final Instruction
+
+Proceed step by step:
+
+Design architecture
+
+Implement modules incrementally
+
+Validate each component locally
+
+❄️ END OF UPDATED MASTER PROMPT
